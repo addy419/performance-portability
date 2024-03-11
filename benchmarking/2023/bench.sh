@@ -3,7 +3,7 @@
 set -eu
 
 BASE="$PWD"
-ONEAPI=oneapi-2023.2
+ONEAPI=oneapi-2024.0
 NVHPC=nvhpc-23.5
 GCC=gcc-13.1
 ACFL=acfl-23.04.1
@@ -213,28 +213,28 @@ cambridge)
     ;;
 idc)
 
-    cd "$BASE/babelstream/results"
-    bench_once pvc-idc $ONEAPI omp kokkos "${babelstream_oneapi_gpu_models[@]}"
+    # cd "$BASE/babelstream/results"
+    # bench_once pvc-idc $ONEAPI omp kokkos "${babelstream_oneapi_gpu_models[@]}"
 
     cd "$BASE/tealeaf/results"
-    # bench_exec exec_build pvc-idc $ONEAPI omp kokkos "${tealeaf_oneapi_gpu_models[@]}"
+    bench_exec exec_build pvc-idc $ONEAPI omp sycl-acc
 
-    for bm in 8; do
-        for stage in false; do
+    for bm in 4 8; do
+        for stage in true false; do
             export INPUT_BM="5e_${bm}"
             export STAGE="$stage"
-            bench_exec exec_submit pvc-idc $ONEAPI std-indices #  omp kokkos "${tealeaf_oneapi_gpu_models[@]}"
+            bench_exec exec_submit pvc-idc $ONEAPI omp sycl-acc
         done
     done
 
     cd "$BASE/cloverleaf/results"
-    bench_exec exec_build pvc-idc $ONEAPI omp kokkos "${tealeaf_oneapi_gpu_models[@]}"
+    bench_exec exec_build pvc-idc $ONEAPI omp sycl-acc
 
-    for bm in 4 16 64 256; do
+    for bm in 4 16 64; do
         for stage in true false; do
             export INPUT_BM="${bm}"
             export STAGE="$stage"
-            bench_exec exec_submit pvc-idc $ONEAPI omp kokkos "${tealeaf_oneapi_gpu_models[@]}"
+            bench_exec exec_submit pvc-idc $ONEAPI omp sycl-acc
         done
     done
     ;;

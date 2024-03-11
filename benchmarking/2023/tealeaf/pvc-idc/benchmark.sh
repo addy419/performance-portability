@@ -24,6 +24,18 @@ oneapi-2023.2)
   append_opts "-DCMAKE_CXX_COMPILER=icpx"
   append_opts "-DCXX_EXTRA_FLAGS=-march=icelake-server;-Ofast"
   ;;
+oneapi-2024.0)
+  set +eu
+  source "/opt/intel/oneapi/compiler/2024.0/env/vars.sh"
+  source "/opt/intel/oneapi/tbb/2021.11/env/vars.sh"
+  source "/opt/intel/oneapi/mpi/2021.11/env/vars.sh"
+  # source "/opt/intel/oneapi/tbb/2021.10.0/env/vars.sh"
+  # source "/opt/intel/oneapi/mpi/2021.10.0/env/vars.sh"
+  set -eu
+  append_opts "-DCMAKE_C_COMPILER=icx"
+  append_opts "-DCMAKE_CXX_COMPILER=icpx"
+  append_opts "-DCXX_EXTRA_FLAGS=-march=sapphirerapids;-Ofast"
+  ;;
 *) unknown_compiler ;;
 esac
 
